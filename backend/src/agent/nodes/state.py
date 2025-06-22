@@ -1,13 +1,46 @@
 from __future__ import annotations
-
 from dataclasses import dataclass, field
 from typing import TypedDict
-
 from langgraph.graph import add_messages
 from typing_extensions import Annotated
-
-
 import operator
+
+
+# ====================================== #
+from typing import TypedDict, List, Dict, Any, Annotated, Union
+import operator
+from .container.container import PersistentDockerRunner
+from anthropic import Anthropic
+
+
+class Solution(TypedDict):
+    solution_id: str
+    pre_description: str
+    description: str
+    improvement: str
+    pre_code: str
+    code: str
+    pre_result: Dict[str, Any]
+    result: Dict
+    
+
+
+class GraphState(TypedDict):
+    """Main state that flows through the graph"""
+
+    stock_symbol: str
+    runner: Union[PersistentDockerRunner]
+    timestamp: str
+    think_count: int
+
+    # LLM Client
+    anthropic_client: Anthropic
+
+    # Solution
+    solutions: List[List[Solution]]
+
+
+# ====================================== #
 
 
 class OverallState(TypedDict):
