@@ -23,13 +23,13 @@ class PersistentDockerRunner:
         if os.path.exists(self.data_dir):
             for root, dirs, files in os.walk(self.data_dir):
                 # Skip __pycache__ directories
-                dirs[:] = [d for d in dirs if d != '__pycache__']
-                
+                dirs[:] = [d for d in dirs if d != "__pycache__"]
+
                 for file in files:
                     # Skip .pyc files
-                    if file.endswith('.pyc'):
+                    if file.endswith(".pyc"):
                         continue
-                        
+
                     src_path = os.path.join(root, file)
                     # Preserve the relative path structure from data/ directory
                     relative_path = os.path.relpath(src_path, self.data_dir)
@@ -121,56 +121,66 @@ class PersistentDockerRunner:
 
     def stop(self):
         # download all files from the container to workdir
-        download_dir="downloaded_strategies"
+        download_dir = "downloaded_strategies"
         if self.container:
             try:
                 # Create local download directory
                 os.makedirs(download_dir, exist_ok=True)
-                
+
                 # Download all files from app/strategies/ folder
                 try:
-                    archive, _ = self.container.get_archive('/app/strategies/')
-                    
+                    archive, _ = self.container.get_archive("/app/strategies/")
+
                     # Save the tar archive to a temporary file
                     import tarfile
                     import io
-                    
+
                     # Convert archive generator to bytes
-                    archive_data = b''.join(archive)
-                    
+                    archive_data = b"".join(archive)
+
                     # Extract the tar archive
                     with tarfile.open(fileobj=io.BytesIO(archive_data)) as tar:
                         # Extract all files to download directory
                         tar.extractall(path=download_dir)
                         print(f"Downloaded strategies folder to: {download_dir}")
-                        
+
                         # List downloaded files
                         for member in tar.getmembers():
                             if member.isfile() and "__pycache__" not in member.name:
                                 print(f"Downloaded: {member.name}")
-                                
+
                 except Exception as e:
                     print(f"Error downloading strategies folder: {e}")
                     # Try to download individual files if folder download fails
                     try:
                         # List files in strategies directory first
-                        exec_result = self.container.exec_run('find /app/strategies -type f')
+                        exec_result = self.container.exec_run(
+                            "find /app/strategies -type f"
+                        )
                         if exec_result.exit_code == 0:
-                            files = exec_result.output.decode().strip().split('\n')
+                            files = exec_result.output.decode().strip().split("\n")
                             for file_path in files:
                                 if file_path:  # Skip empty lines
                                     try:
-                                        archive, _ = self.container.get_archive(file_path)
-                                        archive_data = b''.join(archive)
-                                        
-                                        with tarfile.open(fileobj=io.BytesIO(archive_data)) as tar:
+                                        archive, _ = self.container.get_archive(
+                                            file_path
+                                        )
+                                        archive_data = b"".join(archive)
+
+                                        with tarfile.open(
+                                            fileobj=io.BytesIO(archive_data)
+                                        ) as tar:
                                             tar.extractall(path=download_dir)
                                             print(f"Downloaded: {file_path}")
                                     except Exception as file_error:
-                                        print(f"Failed to download {file_path}: {file_error}")
+                                        print(
+                                            f"Failed to download {file_path}: {file_error}"
+                                        )
                     except Exception as list_error:
-                        print(f"Failed to list files in strategies folder: {list_error}")
-                
+                        print(
+                            f"Failed to list files in strategies folder: {list_error}"
+                        )
+
                 # Stop and remove container
                 self.container.stop()
                 self.container.remove()
@@ -222,6 +232,11 @@ class PersistentDockerRunner:
                 "metrics.py not found in the container. Please upload it."
             )
         print("✅ metrics.py found in the container.")
+
+        print("\n")
+        print("=========================================")
+        print("                Invest AI                ")
+        print("=========================================")
 
         return container_relative_paths
 

@@ -5,8 +5,14 @@ def finish(state: GraphState) -> GraphState:
     """Final processing and output"""
     print("[Finish] Finalizing the workflow...")
 
+    if len(state["solutions"][-1]) == 0:
+        print("[Finish] No solutions found. Exiting.")
+        return state
+
     last_iteration = state["solutions"][-1]
-    best_solution = sorted(last_iteration, key=lambda s: s.get("result", {}).get("final_value", 0))[-1]
+    best_solution = sorted(
+        last_iteration, key=lambda s: s.get("result", {}).get("final_value", 0)
+    )[-1]
 
     print(f"[Finish] Best solution: {best_solution['solution_id']}")
     print(

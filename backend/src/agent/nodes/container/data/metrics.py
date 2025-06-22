@@ -104,18 +104,39 @@ if __name__ == "__main__":
     strategy_cls = load_strategy_from_file(args.strategy_path)
 
     # Run backtest and get metrics + actions
-    metrics = get_metrics(
-        df,
-        strategy_cls=strategy_cls
-    )
+    metrics = get_metrics(df, strategy_cls=strategy_cls)
 
     # Print key summary metrics
     print("\n===== BACKTEST SUMMARY =====")
-    print(f"Final Portfolio Value: ${metrics['final_value']:.2f}")
-    print(f"Sharpe Ratio: {metrics['sharpe'].get('sharperatio', 'N/A')}")
-    print(f"Max Drawdown: {metrics['drawdown'].get('max', {}).get('drawdown', 'N/A')}")
-    print(f"Total Return: {metrics['returns'].get('rtot', 'N/A')}")
-    print(f"SQN: {metrics['sqn'].get('sqn', 'N/A')}")
+    print(f"Final Portfolio Value: ${metrics['final_value']:.2f} (from $100000)")
+
+    # Format Sharpe Ratio
+    sharpe_ratio = metrics["sharpe"].get("sharperatio", None)
+    if sharpe_ratio is not None:
+        print(f"Sharpe Ratio: {sharpe_ratio:.1f}")
+    else:
+        print("Sharpe Ratio: N/A")
+
+    # Format Max Drawdown as percentage
+    max_drawdown = metrics["drawdown"].get("max", {}).get("drawdown", None)
+    if max_drawdown is not None:
+        print(f"Max Drawdown: {max_drawdown * 100:.1f}%")
+    else:
+        print("Max Drawdown: N/A")
+
+    # Format Total Return from analyzer (should match our calculated one)
+    analyzer_return = metrics["returns"].get("rtot", None)
+    if analyzer_return is not None:
+        print(f"Analyzer Total Return: {analyzer_return * 100:.1f}%")
+    else:
+        print("Analyzer Total Return: N/A")
+
+    # Format SQN
+    sqn_value = metrics["sqn"].get("sqn", None)
+    if sqn_value is not None:
+        print(f"SQN: {sqn_value:.1f}")
+    else:
+        print("SQN: N/A")
 
     # Save to JSON
     if not os.path.exists(os.path.dirname(args.result_path)):

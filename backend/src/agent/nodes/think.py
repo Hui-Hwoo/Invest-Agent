@@ -118,7 +118,7 @@ def think(state: GraphState) -> GraphState:
                         "Failed to generate solutions after multiple retries"
                     ) from e
                 # retry on any error
-                print(f"[First Think] Error generating solutions: {e}")
+                print(f"❌ [First Think] Error generating solutions: {e}")
                 continue
 
         previous_solutions = state["solutions"]
@@ -154,9 +154,9 @@ def think(state: GraphState) -> GraphState:
             while not finished and retry_count < max_retries:
                 try:
                     prompt = improve_strategy_prompt.format(
-                        description=old_strategy["pre_description"],
-                        code=old_strategy["pre_code"] or "",
-                        result=old_strategy["pre_result"] or "",
+                        description=old_strategy.get("pre_description", ""),
+                        code=old_strategy.get("pre_code", ""),
+                        result=old_strategy.get("pre_result", ""),
                     )
                     message = anthropic_client.messages.create(
                         model="claude-opus-4-20250514",
@@ -172,11 +172,11 @@ def think(state: GraphState) -> GraphState:
                     if solution_string.endswith("```"):
                         solution_string = solution_string[:-3].strip()
 
-                    print(f"[Debug][Think] Prompt for LLM: {solution_string}")
+                    # print(f"[Debug][Think] Prompt for LLM: {solution_string}")
 
                     # print(f"[Debug] \n{solution_string.strip()}\n")
                     response = json.loads(solution_string.strip())
-                    print(f"[Debug] Response from LLM: {response}")
+                    # print(f"[Debug] Response from LLM: {response}")
 
                     if (
                         not isinstance(response, dict)
@@ -197,7 +197,7 @@ def think(state: GraphState) -> GraphState:
                         raise ValueError(
                             "Failed to generate updated strategy after multiple retries"
                         ) from e
-                    print(f"[Think] Error generating solutions: {e}")
+                    print(f"❌ [Think] Error generating solutions: {e}")
                     continue
 
         previous_solutions = state["solutions"]

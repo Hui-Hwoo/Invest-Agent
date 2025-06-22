@@ -9,6 +9,9 @@ def aggregate(state: GraphState) -> GraphState:
     for index, s in enumerate(solutions[-1]):
         solution_id = f'{state["think_count"]+1}_{index+1}'
 
+        if not s.get("result"):
+            continue
+
         if (
             s["pre_result"].get("final_value")
             and s["result"].get("final_value")
@@ -18,12 +21,12 @@ def aggregate(state: GraphState) -> GraphState:
                 {
                     "solution_id": solution_id,
                     "description": "",
-                    "pre_description": s["pre_description"],
+                    "pre_description": s.get("pre_description", ""),
                     "code": "",
                     "result": "",
                     "improvement": "",
-                    "pre_result": s["pre_result"],
-                    "pre_code": s["pre_code"],
+                    "pre_result": s.get("pre_result", ""),
+                    "pre_code": s.get("pre_code", ""),
                 }
             )
         else:
@@ -31,12 +34,12 @@ def aggregate(state: GraphState) -> GraphState:
                 {
                     "solution_id": solution_id,
                     "description": "",
-                    "pre_description": s["description"],
+                    "pre_description": s.get("description", ""),
                     "code": "",
                     "result": "",
                     "improvement": "",
-                    "pre_result": s["result"],
-                    "previous_code": s["code"],
+                    "pre_result": s.get("result", ""),
+                    "previous_code": s.get("code", ""),
                 }
             )
 

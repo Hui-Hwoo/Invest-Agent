@@ -90,7 +90,7 @@ class SolutionImplementer:
         retry_count = 0
         max_retries = 5
 
-        print(f"=============== {solution['solution_id']} ===============")
+        print(f"\n============= strategy-{solution['solution_id']} =============")
         while retry_count <= max_retries:
             try:
 
@@ -123,14 +123,14 @@ class SolutionImplementer:
                         }
 
             except Exception as e:
-                print(f"[Error] Processing solution {solution_id}: {e}")
+                print(f"❌ [Error] Processing strategy-{solution_id}")
                 retry_count += 1
                 if retry_count > max_retries:
-                    return None
+                    return {}
 
     def _implement_solution(self, solution: Solution) -> Solution:
         """Implement a single solution"""
-        print(f"[Implement]", f"strategy-{solution['solution_id']}")
+        print(f"\n[Implement]", f"strategy-{solution['solution_id']}")
         # print(f"[Debug]\n", solution)
 
         prompt = improve_strategy_code_prompt
@@ -166,6 +166,8 @@ class SolutionImplementer:
 
         implementation_code = implementation_code.strip()
 
+        print(f"✅ [Implement] strategy-{solution['solution_id']}")
+
         return implementation_code
 
     def _compile_solution(self, implementation: str, solution_id) -> bool:
@@ -186,9 +188,9 @@ class SolutionImplementer:
                     f"python -m py_compile strategies/strategy-{solution_id}.py"
                 )
                 if "SyntaxError" in output or "IndentationError" in output:
-                    print(f"[Compile Error] ", solution_id)
+                    print(f"❌ [Compile Error] ", solution_id)
                     return False
-                print(f"[Compile Success] strategy-{solution_id}")
+                print(f"✅ [Compile] strategy-{solution_id}")
                 return True
             except Exception as e:
                 retry_count += 1
@@ -207,7 +209,7 @@ class SolutionImplementer:
             f"python metrics.py --strategy-path strategies/strategy-{solution_id}.py --result-path logs/res-{solution_id}.json"
         )
 
-        print(f"[Evaluate Output] strategy-{solution_id}: {res}")
+        print(f"✅ [Evaluate] strategy-{solution_id}: \n{res}\n")
 
         # download the result file
         result_content = self.runner.download_file(f"logs/res-{solution_id}.json")
@@ -254,7 +256,7 @@ def implement(state: GraphState) -> GraphState:
                 # print(result)
                 updated_solutions.append(result)
             except Exception as e:
-                print(f"[Implement Error] {e}")
+                print(f"❌ [Implement Error] {e}")
                 continue
     state["solutions"][-1] = updated_solutions
     return {**state}
