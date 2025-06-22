@@ -10,8 +10,9 @@ def finish(state: GraphState) -> GraphState:
         return state
 
     last_iteration = state["solutions"][-1]
+    
     best_solution = sorted(
-        last_iteration, key=lambda s: s.get("result", {}).get("final_value", 0)
+        last_iteration, key=lambda s: ({} if not s.get("result") else s.get("result")).get("final_value", 0)
     )[-1]
 
     print(f"[Finish] Best solution: {best_solution['solution_id']}")

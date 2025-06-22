@@ -136,9 +136,9 @@ class SolutionImplementer:
         prompt = improve_strategy_code_prompt
         if solution.get("description"):
             prompt += f"## Strategy Description\n{solution['description']}\n\n"
-        if solution["improvement"]:
+        if solution.get("improvement"):
             prompt += f"## Improvement to Apply\n{solution['improvement']}\n\n"
-        if solution["pre_code"]:
+        if solution.get("pre_code"):
             prompt += (
                 f"## Previous Code\n```python\n{solution['pre_code']}\n```\n\n"
             )
