@@ -10,15 +10,21 @@ def finish(state: GraphState) -> GraphState:
         return state
 
     last_iteration = state["solutions"][-1]
-    
+
     best_solution = sorted(
-        last_iteration, key=lambda s: ({} if not s.get("result") else s.get("result")).get("final_value", 0)
+        last_iteration,
+        key=lambda s: ({} if not s.get("result") else s.get("result")).get(
+            "final_value", 0
+        ),
     )[-1]
 
     print(f"[Finish] Best solution: {best_solution['solution_id']}")
     print(
-        f"[Finish] Best solution value: {best_solution.get('result', {}).get('final_value', 0)}"
+        f"[Finish] Best solution value: {(best_solution.get('result') if not best_solution.get('result') else {}).get('final_value', 0)}"
     )
+
+    # Best solution result
+    print(best_solution.get("result"))
 
     runner = state["runner"]
     if runner:
