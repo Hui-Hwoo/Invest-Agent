@@ -17,10 +17,11 @@ export default function App() {
   const hasFinalizeEventOccurredRef = useRef(false);
   const [error, setError] = useState<string | null>(null);
   const thread = useStream<{
-    messages: Message[];
-    initial_search_query_count: number;
-    max_research_loops: number;
-    reasoning_model: string;
+    // messages: Message[];
+    // initial_search_query_count: number;
+    // max_research_loops: number;
+    // reasoning_model: string;
+    stock_symbol: string;
   }>({
     apiUrl: import.meta.env.DEV
       ? "http://localhost:2024"
@@ -135,10 +136,11 @@ export default function App() {
         },
       ];
       thread.submit({
-        messages: newMessages,
-        initial_search_query_count: initial_search_query_count,
-        max_research_loops: max_research_loops,
-        reasoning_model: model,
+        // messages: newMessages,
+        // initial_search_query_count: initial_search_query_count,
+        // max_research_loops: max_research_loops,
+        // reasoning_model: model,
+        stock_symbol: "QQQ",
       });
     },
     [thread]

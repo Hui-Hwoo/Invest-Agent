@@ -25,8 +25,8 @@ export const InputForm: React.FC<InputFormProps> = ({
   hasHistory,
 }) => {
   const [internalInputValue, setInternalInputValue] = useState("");
-  const [effort, setEffort] = useState("medium");
-  const [model, setModel] = useState("gemini-2.5-flash-preview-04-17");
+  const [effort, setEffort] = useState('3');
+  const [model, setModel] = useState("claude-opus-4-20250514");
 
   const handleInternalSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -59,7 +59,7 @@ export const InputForm: React.FC<InputFormProps> = ({
           value={internalInputValue}
           onChange={(e) => setInternalInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Who won the Euro 2024 and scored the most goals?"
+          placeholder="Stock symbol or company name"
           className={`w-full text-neutral-100 placeholder-neutral-500 resize-none border-0 focus:outline-none focus:ring-0 outline-none focus-visible:ring-0 shadow-none
                         md:text-base  min-h-[56px] max-h-[200px]`}
           rows={1}
@@ -86,7 +86,7 @@ export const InputForm: React.FC<InputFormProps> = ({
               } p-2 cursor-pointer rounded-full transition-all duration-200 text-base`}
               disabled={isSubmitDisabled}
             >
-              Search
+              Trade
               <Send className="h-5 w-5" />
             </Button>
           )}
@@ -97,7 +97,7 @@ export const InputForm: React.FC<InputFormProps> = ({
           <div className="flex flex-row gap-2 bg-neutral-700 border-neutral-600 text-neutral-300 focus:ring-neutral-500 rounded-xl rounded-t-sm pl-2  max-w-[100%] sm:max-w-[90%]">
             <div className="flex flex-row items-center text-sm">
               <Brain className="h-4 w-4 mr-2" />
-              Effort
+              Iteration
             </div>
             <Select value={effort} onValueChange={setEffort}>
               <SelectTrigger className="w-[120px] bg-transparent border-none cursor-pointer">
@@ -105,22 +105,22 @@ export const InputForm: React.FC<InputFormProps> = ({
               </SelectTrigger>
               <SelectContent className="bg-neutral-700 border-neutral-600 text-neutral-300 cursor-pointer">
                 <SelectItem
-                  value="low"
+                  value="3"
                   className="hover:bg-neutral-600 focus:bg-neutral-600 cursor-pointer"
                 >
-                  Low
+                  3
                 </SelectItem>
                 <SelectItem
-                  value="medium"
+                  value="5"
                   className="hover:bg-neutral-600 focus:bg-neutral-600 cursor-pointer"
                 >
-                  Medium
+                  5
                 </SelectItem>
                 <SelectItem
-                  value="high"
+                  value="7"
                   className="hover:bg-neutral-600 focus:bg-neutral-600 cursor-pointer"
                 >
-                  High
+                  7
                 </SelectItem>
               </SelectContent>
             </Select>
@@ -131,29 +131,31 @@ export const InputForm: React.FC<InputFormProps> = ({
               Model
             </div>
             <Select value={model} onValueChange={setModel}>
-              <SelectTrigger className="w-[150px] bg-transparent border-none cursor-pointer">
+              <SelectTrigger className="w-[200px] bg-transparent border-none cursor-pointer">
                 <SelectValue placeholder="Model" />
               </SelectTrigger>
               <SelectContent className="bg-neutral-700 border-neutral-600 text-neutral-300 cursor-pointer">
                 <SelectItem
-                  value="gemini-2.0-flash"
+                  value="claude-opus-4-20250514"
                   className="hover:bg-neutral-600 focus:bg-neutral-600 cursor-pointer"
                 >
                   <div className="flex items-center">
-                    <Zap className="h-4 w-4 mr-2 text-yellow-400" /> 2.0 Flash
+                    <Zap className="h-4 w-4 mr-2 text-yellow-400" /> Claude Opus 4
                   </div>
                 </SelectItem>
                 <SelectItem
-                  value="gemini-2.5-flash-preview-04-17"
+                  value="claude-sonnet-4-20250514"
                   className="hover:bg-neutral-600 focus:bg-neutral-600 cursor-pointer"
+                  disabled
                 >
                   <div className="flex items-center">
-                    <Zap className="h-4 w-4 mr-2 text-orange-400" /> 2.5 Flash
+                    <Zap className="h-4 w-4 mr-2 text-orange-400" /> Claude Sonnet 4
                   </div>
                 </SelectItem>
                 <SelectItem
                   value="gemini-2.5-pro-preview-05-06"
                   className="hover:bg-neutral-600 focus:bg-neutral-600 cursor-pointer"
+                  disabled
                 >
                   <div className="flex items-center">
                     <Cpu className="h-4 w-4 mr-2 text-purple-400" /> 2.5 Pro
@@ -170,7 +172,7 @@ export const InputForm: React.FC<InputFormProps> = ({
             onClick={() => window.location.reload()}
           >
             <SquarePen size={16} />
-            New Search
+            New Trade
           </Button>
         )}
       </div>

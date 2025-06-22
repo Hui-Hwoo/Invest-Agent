@@ -1,5 +1,5 @@
 from langgraph.graph import StateGraph, END
-from nodes import GraphState, initialize, think, implement, aggregate, finish
+from src.agent.nodes import GraphState, initialize, think, implement, aggregate, finish
 
 
 def route_after_aggregate(state: GraphState) -> str:
@@ -13,55 +13,56 @@ def route_after_aggregate(state: GraphState) -> str:
         return "finish"
 
 
-def create_parallel_stock_analysis_graph():
-    """Create the LangGraph workflow with parallel solution processing"""
+# def create_parallel_stock_analysis_graph():
+#     """Create the LangGraph workflow with parallel solution processing"""
 
-    workflow = StateGraph(GraphState)
+workflow = StateGraph(GraphState)
 
-    # Add nodes
-    workflow.add_node("initialize", initialize)
-    workflow.add_node("think", think)
-    workflow.add_node("implement", implement)
-    workflow.add_node("aggregate", aggregate)
-    workflow.add_node("finish", finish)
+# Add nodes
+workflow.add_node("initialize", initialize)
+workflow.add_node("think", think)
+workflow.add_node("implement", implement)
+workflow.add_node("aggregate", aggregate)
+workflow.add_node("finish", finish)
 
-    # Set entry point
-    workflow.set_entry_point("initialize")
+# Set entry point
+workflow.set_entry_point("initialize")
 
-    # Add edges
-    workflow.add_edge("initialize", "think")
-    workflow.add_edge("think", "implement")
-    workflow.add_edge("implement", "aggregate")
+# Add edges
+workflow.add_edge("initialize", "think")
+workflow.add_edge("think", "implement")
+workflow.add_edge("implement", "aggregate")
 
-    # Conditional routing after aggregation
-    workflow.add_conditional_edges(
-        "aggregate",
-        route_after_aggregate,
-        {"think": "think", "finish": "finish"},
-    )
+# Conditional routing after aggregation
+workflow.add_conditional_edges(
+    "aggregate",
+    route_after_aggregate,
+    {"think": "think", "finish": "finish"},
+)
 
-    workflow.add_edge("finish", END)
+workflow.add_edge("finish", END)
 
-    return workflow.compile()
+graph = workflow.compile(name="invest-agent")
+# return workflow.compile()
 
 
 # Usage example
-def run_parallel_stock_analysis(stock_symbol: str):
-    """Run the parallel stock analysis workflow"""
+# def run_parallel_stock_analysis(stock_symbol: str):
+#     """Run the parallel stock analysis workflow"""
 
-    app = create_parallel_stock_analysis_graph()
+#     app = create_parallel_stock_analysis_graph()
 
-    initial_state = {
-        "stock_symbol": stock_symbol,
-        "think_count": 0,
-        "solutions": [],
-    }
+#     initial_state = {
+#         "stock_symbol": stock_symbol,
+#         "think_count": 0,
+#         "solutions": [],
+#     }
 
-    final_state = app.invoke(initial_state)
-    return final_state
+#     final_state = app.invoke(initial_state)
+#     return final_state
 
 
-# Example usage
-if __name__ == "__main__":
-    result = run_parallel_stock_analysis("QQQ")
-    print(f"Analysis complete for {result['stock_symbol']}")
+# # Example usage
+# if __name__ == "__main__":
+#     result = run_parallel_stock_analysis("QQQ")
+#     print(f"Analysis complete for {result['stock_symbol']}")

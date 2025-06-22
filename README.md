@@ -1,25 +1,31 @@
-# Gemini Fullstack LangGraph Quickstart
+# InvestAI
 
-This project demonstrates a fullstack application using a React frontend and a LangGraph-powered backend agent. The agent is designed to perform comprehensive research on a user's query by dynamically generating search terms, querying the web using Google Search, reflecting on the results to identify knowledge gaps, and iteratively refining its search until it can provide a well-supported answer with citations. This application serves as an example of building research-augmented conversational AI using LangGraph and Google's Gemini models.
+<div align="center">
+   <img src="./investAI.png" title="MoneyYesWorkNo" alt="MoneyYesWorkNo" width="50%">
+   <p> If AI’s taking your job, let it fund your freedom. </p>
+</div>
 
-<img src="./app.png" title="Gemini Fullstack LangGraph" alt="Gemini Fullstack LangGraph" width="90%">
+## Inspiration
 
-## Features
+AI is powerful—we’ve all imagined a future where it helps us work while we just collect the paycheck. But if our ultimate goal is financial freedom, why stop there? Why not let AI skip the "work" altogether and go straight to making money for us? That’s the vision behind InvestAI: an autonomous agent that continuously adapts its trading strategies to follow market trends and profit directly from price movements—no job required.
 
-- 💬 Fullstack application with a React frontend and LangGraph backend.
-- 🧠 Powered by a LangGraph agent for advanced research and conversational AI.
-- 🔍 Dynamic search query generation using Google Gemini models.
-- 🌐 Integrated web research via Google Search API.
-- 🤔 Reflective reasoning to identify knowledge gaps and refine searches.
-- 📄 Generates answers with citations from gathered sources.
-- 🔄 Hot-reloading for both frontend and backend during development.
+## What it does
 
-## Project Structure
+InvestAI generates algorithmic trading strategies for any stock you choose—and continuously updates them to adapt to market trends. It stays rational, processes massive amounts of data, filters out noise, and extracts the most valuable and truthful insights to help you make smarter investments.
 
-The project is divided into two main directories:
+Got your own trading idea? InvestAI can iterate, verify, and evaluate it within an hour. Experience is no longer required—AI helps you capture the probabilities hidden in every possible outcome.
 
--   `frontend/`: Contains the React application built with Vite.
--   `backend/`: Contains the LangGraph/FastAPI application, including the research agent logic.
+## Accomplishments that we're proud of
+
+We’ve proven that when you trust AI and give it time, it can discover profitable strategies for virtually any stock. In just two hours, InvestAI was able to generate a strategy that projects an annual return of nearly 20%. All we had to do was let the AI explore, experiment, and optimize—then come back to see the results.
+
+<div align="center">
+   <img src="./result.png" title="Result" alt="Result" width="50%">
+</div>
+
+## What's next for InvestAI
+
+Next, we plan to expand the range of tradable assets and increase the trading frequency. This will give InvestAI more flexibility to explore diverse opportunities and generate more innovative, adaptive, and stable strategies. The goal: reduce risk, boost returns, and grow your wealth with even greater confidence.
 
 ## Getting Started: Development and Local Testing
 
@@ -57,7 +63,8 @@ npm install
 ```bash
 make dev
 ```
-This will run the backend and frontend development servers.    Open your browser and navigate to the frontend development server URL (e.g., `http://localhost:5173/app`).
+
+This will run the backend and frontend development servers. Open your browser and navigate to the frontend development server URL (e.g., `http://localhost:5173/app`).
 
 _Alternatively, you can run the backend and frontend development servers separately. For the backend, open a terminal in the `backend/` directory and run `langgraph dev`. The backend API will be available at `http://127.0.0.1:2024`. It will also open a browser window to the LangGraph UI. For the frontend, open a terminal in the `frontend/` directory and run `npm run dev`. The frontend will be available at `http://localhost:5173`._
 
@@ -84,7 +91,6 @@ cd backend
 python examples/cli_research.py "What are the latest trends in renewable energy?"
 ```
 
-
 ## Deployment
 
 In production, the backend server serves the optimized static frontend build. LangGraph requires a Redis instance and a Postgres database. Redis is used as a pub-sub broker to enable streaming real time output from background runs. Postgres is used to store assistants, threads, runs, persist thread state and long term memory, and to manage the state of the background task queue with 'exactly once' semantics. For more details on how to deploy the backend server, take a look at the [LangGraph Documentation](https://langchain-ai.github.io/langgraph/concepts/deployment_options/). Below is an example of how to build a Docker image that includes the optimized frontend build and the backend server and run it via `docker-compose`.
@@ -95,26 +101,28 @@ _Note: If you are not running the docker-compose.yml example or exposing the bac
 
 **1. Build the Docker Image:**
 
-   Run the following command from the **project root directory**:
-   ```bash
-   docker build -t gemini-fullstack-langgraph -f Dockerfile .
-   ```
+Run the following command from the **project root directory**:
+
+```bash
+docker build -t gemini-fullstack-langgraph -f Dockerfile .
+```
+
 **2. Run the Production Server:**
 
-   ```bash
-   GEMINI_API_KEY=<your_gemini_api_key> LANGSMITH_API_KEY=<your_langsmith_api_key> docker-compose up
-   ```
+```bash
+GEMINI_API_KEY=<your_gemini_api_key> LANGSMITH_API_KEY=<your_langsmith_api_key> docker-compose up
+```
 
 Open your browser and navigate to `http://localhost:8123/app/` to see the application. The API will be available at `http://localhost:8123`.
 
 ## Technologies Used
 
-- [React](https://reactjs.org/) (with [Vite](https://vitejs.dev/)) - For the frontend user interface.
-- [Tailwind CSS](https://tailwindcss.com/) - For styling.
-- [Shadcn UI](https://ui.shadcn.com/) - For components.
-- [LangGraph](https://github.com/langchain-ai/langgraph) - For building the backend research agent.
-- [Google Gemini](https://ai.google.dev/models/gemini) - LLM for query generation, reflection, and answer synthesis.
+-   [React](https://reactjs.org/) (with [Vite](https://vitejs.dev/)) - For the frontend user interface.
+-   [Tailwind CSS](https://tailwindcss.com/) - For styling.
+-   [Shadcn UI](https://ui.shadcn.com/) - For components.
+-   [LangGraph](https://github.com/langchain-ai/langgraph) - For building the backend research agent.
+-   [Google Gemini](https://ai.google.dev/models/gemini) - LLM for query generation, reflection, and answer synthesis.
 
 ## License
 
-This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details. 
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
