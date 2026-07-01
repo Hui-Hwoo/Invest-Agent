@@ -1,7 +1,7 @@
 # InvestAI
 
 <div align="center">
-   <img src="./investAI.png" title="MoneyYesWorkNo" alt="MoneyYesWorkNo" width="50%">
+   <img src="./investAI.png" title="MoneyYesWorkNo" alt="MoneyYesWorkNo" width="30%">
    <p> If AI’s taking your job, let it fund your freedom. </p>
 </div>
 
